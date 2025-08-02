@@ -1,0 +1,647 @@
+{
+  "info": {
+    "name": "Auto-Paraphrasing System API",
+    "description": "Comprehensive API collection for the Auto-Paraphrasing System with Indonesian and English text processing capabilities.",
+    "version": "2.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Get basic API information and status"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"name\": \"Auto-Paraphrasing System\",\n  \"version\": \"2.0.0\",\n  \"status\": \"running\",\n  \"docs_url\": \"/docs\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check API health status"
+          },
+          "response": [
+            {
+              "name": "Healthy Response",
+              "status": "OK", 
+              "code": 200,
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"2024-01-15T10:30:00.123456\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Performance Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/performance/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "performance", "stats"]
+            },
+            "description": "Get comprehensive performance statistics for all services"
+          },
+          "response": [
+            {
+              "name": "Performance Stats Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"enhanced_indot5\": {\n    \"total_requests\": 150,\n    \"successful_requests\": 145,\n    \"average_processing_time\": 1.2,\n    \"cache_hit_rate\": 0.35\n  },\n  \"rule_based\": {\n    \"total_transformations\": 300,\n    \"successful_transformations\": 285,\n    \"average_transformation_time\": 0.8\n  },\n  \"system_status\": {\n    \"services_loaded\": true,\n    \"gpu_available\": true,\n    \"models_ready\": {\n      \"indot5\": true,\n      \"nlp_pipeline\": true,\n      \"rule_based\": true\n    }\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Document Management",
+      "item": [
+        {
+          "name": "Upload Document (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Document file (PDF, DOCX, TXT)"
+                },
+                {
+                  "key": "chapter",
+                  "value": "BAB 1",
+                  "type": "text",
+                  "description": "Chapter designation (optional)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/documents/upload",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents", "upload"]
+            },
+            "description": "Upload a document for basic processing"
+          },
+          "response": [
+            {
+              "name": "Successful Upload",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"filename\": \"research_paper.txt\",\n  \"chapter\": \"BAB 1\",\n  \"status\": \"PENDING\",\n  \"upload_date\": \"2024-01-15T10:30:00.123456\",\n  \"processed_date\": null,\n  \"metadata\": null\n}"
+            }
+          ]
+        },
+        {
+          "name": "Upload Document (Enhanced)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Document file (PDF, DOCX, TXT)"
+                },
+                {
+                  "key": "chapter",
+                  "value": "BAB 2",
+                  "type": "text"
+                },
+                {
+                  "key": "preserve_structure",
+                  "value": "true",
+                  "type": "text",
+                  "description": "Whether to preserve document structure"
+                },
+                {
+                  "key": "extract_academic_terms",
+                  "value": "true",
+                  "type": "text",
+                  "description": "Whether to extract academic terminology"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/documents/upload-enhanced",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "documents", "upload-enhanced"]
+            },
+            "description": "Upload document with enhanced processing capabilities"
+          },
+          "response": [
+            {
+              "name": "Enhanced Upload Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"message\": \"Document uploaded and processed successfully\",\n  \"document_id\": \"123e4567-e89b-12d3-a456-426614174001\",\n  \"filename\": \"academic_paper.txt\",\n  \"status\": \"PENDING\",\n  \"metadata\": {\n    \"academic_terms\": [\"penelitian\", \"metode\", \"analisis\"],\n    \"structure_preserved\": true,\n    \"sentence_count\": 15,\n    \"word_count\": 230\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Document Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/documents/{{document_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents", "{{document_id}}"]
+            },
+            "description": "Get detailed information about a specific document"
+          },
+          "response": [
+            {
+              "name": "Document Details",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": \"{{document_id}}\",\n  \"filename\": \"research_paper.txt\",\n  \"chapter\": \"BAB 1\",\n  \"status\": \"COMPLETED\",\n  \"upload_date\": \"2024-01-15T10:30:00.123456\",\n  \"processed_date\": \"2024-01-15T10:32:15.789012\",\n  \"metadata\": {\n    \"word_count\": 230,\n    \"language\": \"indonesian\"\n  },\n  \"original_content\": \"Penelitian ini menggunakan metode kualitatif...\",\n  \"paraphrased_content\": \"Studi ini menerapkan pendekatan kualitatif...\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/documents?status=COMPLETED&chapter=BAB 1&limit=10&offset=0",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "COMPLETED",
+                  "description": "Filter by document status"
+                },
+                {
+                  "key": "chapter",
+                  "value": "BAB 1",
+                  "description": "Filter by chapter"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                }
+              ]
+            },
+            "description": "List documents with optional filtering"
+          },
+          "response": [
+            {
+              "name": "Document List",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n    \"filename\": \"research_paper.txt\",\n    \"chapter\": \"BAB 1\",\n    \"status\": \"COMPLETED\",\n    \"upload_date\": \"2024-01-15T10:30:00.123456\",\n    \"processed_date\": \"2024-01-15T10:32:15.789012\",\n    \"metadata\": {}\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Document Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/documents/{{document_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents", "{{document_id}}", "status"]
+            },
+            "description": "Get current processing status of a document"
+          },
+          "response": [
+            {
+              "name": "Document Status",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"status\": \"PROCESSING\",\n  \"message\": \"Document is being paraphrased\",\n  \"progress\": 0.65\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/documents/{{document_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents", "{{document_id}}"]
+            },
+            "description": "Delete a document and its associated files"
+          },
+          "response": [
+            {
+              "name": "Delete Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"message\": \"Document deleted successfully\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Text Analysis",
+      "item": [
+        {
+          "name": "NLP Text Analysis",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Penelitian ini menggunakan metode analisis kualitatif untuk mengkaji dampak teknologi digital terhadap pembelajaran mahasiswa. Data dikumpulkan melalui wawancara mendalam dengan 30 responden yang dipilih secara purposive sampling.\",\n  \"extract_academic_terms\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/text/analyze",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "text", "analyze"]
+            },
+            "description": "Perform comprehensive NLP analysis on text"
+          },
+          "response": [
+            {
+              "name": "NLP Analysis Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"total_sentences\": 2,\n  \"overall_readability\": 0.65,\n  \"overall_complexity\": 0.78,\n  \"academic_terms_count\": 8,\n  \"named_entities_count\": 2,\n  \"quality_metrics\": {\n    \"overall_score\": 0.72,\n    \"academic_tone\": 0.85\n  },\n  \"paraphrasing_priorities\": [1, 0],\n  \"high_priority_sentences\": [\n    {\n      \"index\": 1,\n      \"text\": \"Data dikumpulkan melalui wawancara mendalam...\",\n      \"priority\": 0.85,\n      \"complexity\": 0.75,\n      \"readability\": 0.60\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Text Quality Assessment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/text/quality-assessment?text=Penelitian ini menggunakan metode kualitatif untuk menganalisis data yang dikumpulkan.",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "text", "quality-assessment"],
+              "query": [
+                {
+                  "key": "text",
+                  "value": "Penelitian ini menggunakan metode kualitatif untuk menganalisis data yang dikumpulkan.",
+                  "description": "Text to assess"
+                }
+              ]
+            },
+            "description": "Assess text quality across multiple dimensions"
+          },
+          "response": [
+            {
+              "name": "Quality Assessment Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"readability_score\": 0.68,\n  \"complexity_score\": 0.72,\n  \"academic_tone_score\": 0.85,\n  \"grammar_score\": 0.92,\n  \"overall_quality\": 0.78,\n  \"issues\": [\n    \"Sentence could be simplified for better readability\"\n  ],\n  \"recommendations\": [\n    \"Consider breaking down complex sentences\",\n    \"Use more varied vocabulary\"\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Paraphrasing",
+      "item": [
+        {
+          "name": "Start Document Paraphrasing (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"method\": \"INDOT5\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/documents/{{document_id}}/paraphrase",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents", "{{document_id}}", "paraphrase"]
+            },
+            "description": "Start basic paraphrasing of an uploaded document"
+          },
+          "response": [
+            {
+              "name": "Paraphrasing Started",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": \"987fcdeb-51a2-43d1-b789-123456789abc\",\n  \"document_id\": \"{{document_id}}\",\n  \"method_used\": \"INDOT5\",\n  \"similarity_score\": 0.72,\n  \"processing_time\": 3500,\n  \"token_usage\": {\n    \"input_tokens\": 150,\n    \"output_tokens\": 142\n  },\n  \"created_at\": \"2024-01-15T10:35:00.123456\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Enhanced Document Paraphrasing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document_id\": \"{{document_id}}\",\n  \"method\": \"HYBRID\",\n  \"use_nlp_analysis\": true,\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"num_variants\": 3,\n  \"quality_threshold\": 0.7\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/documents/{{document_id}}/paraphrase-enhanced",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "documents", "{{document_id}}", "paraphrase-enhanced"]
+            },
+            "description": "Enhanced paraphrasing with comprehensive options"
+          },
+          "response": [
+            {
+              "name": "Enhanced Paraphrasing Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"message\": \"Enhanced paraphrasing completed\",\n  \"session_id\": \"456e7890-f12a-34b5-c678-901234567def\",\n  \"document_id\": \"{{document_id}}\",\n  \"method_used\": \"HYBRID\",\n  \"similarity_score\": 0.68,\n  \"processing_time\": 8500,\n  \"enhanced_metadata\": {\n    \"total_variants_generated\": 5,\n    \"quality_filtered_variants\": 3,\n    \"academic_terms_preserved\": 8,\n    \"nlp_analysis_applied\": true\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Direct Text Paraphrasing - IndoT5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Penelitian ini menggunakan metode eksperimen untuk menguji hipotesis yang telah dirumuskan sebelumnya.\",\n  \"method\": \"indot5\",\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"num_variants\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/text/paraphrase-direct",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "text", "paraphrase-direct"]
+            },
+            "description": "Direct text paraphrasing using IndoT5 model"
+          },
+          "response": [
+            {
+              "name": "IndoT5 Paraphrasing Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"original_text\": \"Penelitian ini menggunakan metode eksperimen untuk menguji hipotesis yang telah dirumuskan sebelumnya.\",\n  \"variants\": [\n    {\n      \"text\": \"Studi ini menerapkan pendekatan eksperimental untuk memverifikasi hipotesis yang telah diformulasikan sebelumnya.\",\n      \"similarity_score\": 0.68,\n      \"quality_score\": 0.85,\n      \"method_used\": \"enhanced_indot5\"\n    },\n    {\n      \"text\": \"Riset ini menggunakan metode percobaan untuk menguji asumsi yang telah dibuat sebelumnya.\",\n      \"similarity_score\": 0.72,\n      \"quality_score\": 0.82,\n      \"method_used\": \"enhanced_indot5\"\n    }\n  ],\n  \"best_variant\": \"Studi ini menerapkan pendekatan eksperimental untuk memverifikasi hipotesis yang telah diformulasikan sebelumnya.\",\n  \"processing_time\": 1.234,\n  \"metadata\": {\n    \"model\": \"enhanced_indot5\",\n    \"gpu_used\": true,\n    \"cache_hit\": false\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Direct Text Paraphrasing - Rule Based",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Metode penelitian yang digunakan dalam studi ini adalah pendekatan kualitatif dengan teknik wawancara mendalam.\",\n  \"method\": \"rule_based\",\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"num_variants\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/text/paraphrase-direct",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "text", "paraphrase-direct"]
+            },
+            "description": "Direct text paraphrasing using rule-based methods"
+          },
+          "response": [
+            {
+              "name": "Rule-Based Paraphrasing Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"original_text\": \"Metode penelitian yang digunakan dalam studi ini adalah pendekatan kualitatif dengan teknik wawancara mendalam.\",\n  \"variants\": [\n    {\n      \"text\": \"Teknik riset yang diterapkan dalam kajian ini adalah pendekatan kualitatif dengan metode wawancara mendalam.\",\n      \"similarity_score\": 0.65,\n      \"quality_score\": 0.78,\n      \"method_used\": \"rule_based\"\n    },\n    {\n      \"text\": \"Metode kajian yang dipakai dalam penelitian ini adalah pendekatan kualitatif dengan teknik wawancara intensif.\",\n      \"similarity_score\": 0.70,\n      \"quality_score\": 0.75,\n      \"method_used\": \"rule_based\"\n    }\n  ],\n  \"best_variant\": \"Teknik riset yang diterapkan dalam kajian ini adalah pendekatan kualitatif dengan metode wawancara mendalam.\",\n  \"processing_time\": 0.456,\n  \"metadata\": {\n    \"transformations_applied\": [\"lexical_substitution\", \"syntactic_transformation\"],\n    \"academic_terms_preserved\": 4\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Direct Text Paraphrasing - Hybrid",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Hasil penelitian menunjukkan adanya korelasi positif antara penggunaan teknologi digital dan peningkatan prestasi akademik mahasiswa.\",\n  \"method\": \"hybrid\",\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"num_variants\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/text/paraphrase-direct",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "text", "paraphrase-direct"]
+            },
+            "description": "Direct text paraphrasing using hybrid approach (combines IndoT5 and rule-based)"
+          },
+          "response": [
+            {
+              "name": "Hybrid Paraphrasing Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"original_text\": \"Hasil penelitian menunjukkan adanya korelasi positif antara penggunaan teknologi digital dan peningkatan prestasi akademik mahasiswa.\",\n  \"variants\": [\n    {\n      \"text\": \"Temuan riset mengindikasikan hubungan positif antara pemanfaatan teknologi digital dan peningkatan capaian akademik mahasiswa.\",\n      \"similarity_score\": 0.65,\n      \"quality_score\": 0.88,\n      \"method_used\": \"indot5\"\n    },\n    {\n      \"text\": \"Outcome penelitian memperlihatkan korelasi positif antara penggunaan teknologi digital dan peningkatan prestasi akademik mahasiswa.\",\n      \"similarity_score\": 0.72,\n      \"quality_score\": 0.82,\n      \"method_used\": \"rule_based\"\n    },\n    {\n      \"text\": \"Hasil kajian mendemonstrasikan adanya hubungan positif antara pemanfaatan teknologi digital dan peningkatan performa akademik mahasiswa.\",\n      \"similarity_score\": 0.68,\n      \"quality_score\": 0.85,\n      \"method_used\": \"indot5\"\n    }\n  ],\n  \"best_variant\": \"Temuan riset mengindikasikan hubungan positif antara pemanfaatan teknologi digital dan peningkatan capaian akademik mahasiswa.\",\n  \"processing_time\": 2.145,\n  \"metadata\": {\n    \"hybrid_approach\": true,\n    \"indot5_variants\": 2,\n    \"rule_based_variants\": 1,\n    \"selection_criteria\": \"highest_quality_score\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Session Management",
+      "item": [
+        {
+          "name": "Get Paraphrase Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/sessions/{{session_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "sessions", "{{session_id}}"]
+            },
+            "description": "Get details of a specific paraphrase session"
+          },
+          "response": [
+            {
+              "name": "Session Details",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"id\": \"{{session_id}}\",\n  \"document_id\": \"{{document_id}}\",\n  \"method_used\": \"HYBRID\",\n  \"similarity_score\": 0.68,\n  \"processing_time\": 8500,\n  \"token_usage\": {\n    \"enhanced_features\": true,\n    \"variants_generated\": 3,\n    \"quality_filtered\": 2\n  },\n  \"created_at\": \"2024-01-15T10:35:00.123456\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Document Sessions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/documents/{{document_id}}/sessions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "documents", "{{document_id}}", "sessions"]
+            },
+            "description": "Get all paraphrase sessions for a document"
+          },
+          "response": [
+            {
+              "name": "Document Sessions List",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"id\": \"session-1-uuid\",\n    \"document_id\": \"{{document_id}}\",\n    \"method_used\": \"INDOT5\",\n    \"similarity_score\": 0.72,\n    \"processing_time\": 3500,\n    \"token_usage\": {},\n    \"created_at\": \"2024-01-15T10:35:00.123456\"\n  },\n  {\n    \"id\": \"session-2-uuid\",\n    \"document_id\": \"{{document_id}}\",\n    \"method_used\": \"HYBRID\",\n    \"similarity_score\": 0.68,\n    \"processing_time\": 8500,\n    \"token_usage\": {\n      \"enhanced_features\": true\n    },\n    \"created_at\": \"2024-01-15T10:40:00.123456\"\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Demo & Examples",
+      "item": [
+        {
+          "name": "Demo Sample Analysis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/demo/sample-analysis",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "demo", "sample-analysis"]
+            },
+            "description": "Demo endpoint showing comprehensive analysis and paraphrasing capabilities"
+          },
+          "response": [
+            {
+              "name": "Demo Analysis Result",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"sample_text\": \"Penelitian ini menggunakan metode analisis kualitatif untuk mengkaji dampak teknologi digital terhadap pembelajaran mahasiswa...\",\n  \"nlp_analysis\": {\n    \"total_sentences\": 4,\n    \"readability_score\": 0.65,\n    \"complexity_score\": 0.75,\n    \"academic_terms\": [\"penelitian\", \"metode\", \"analisis\", \"teknologi\"],\n    \"named_entities\": [\"Smith\", \"mahasiswa\"]\n  },\n  \"paraphrasing_results\": {\n    \"indot5\": {\n      \"best_variant\": \"Studi ini menerapkan pendekatan analisis kualitatif...\",\n      \"similarity_scores\": [0.68, 0.72],\n      \"quality_scores\": [0.85, 0.82]\n    },\n    \"rule_based\": [\n      {\n        \"text\": \"Kajian ini menggunakan teknik analisis kualitatif...\",\n        \"quality_score\": 0.78,\n        \"similarity_score\": 0.65\n      }\n    ]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Clear Performance Cache",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/performance/clear-cache",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "performance", "clear-cache"]
+            },
+            "description": "Clear all performance caches to free memory"
+          },
+          "response": [
+            {
+              "name": "Cache Cleared",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"message\": \"Performance caches cleared successfully\",\n  \"timestamp\": \"2024-01-15T10:45:00.123456\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "description": "Base URL for the API"
+    },
+    {
+      "key": "document_id",
+      "value": "123e4567-e89b-12d3-a456-426614174000",
+      "description": "Sample document ID for testing"
+    },
+    {
+      "key": "session_id",
+      "value": "987fcdeb-51a2-43d1-b789-123456789abc",
+      "description": "Sample session ID for testing"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script to set up common variables",
+          "if (!pm.globals.get('timestamp')) {",
+          "    pm.globals.set('timestamp', new Date().toISOString());",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Common test script for all requests",
+          "pm.test('Response time is reasonable', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+          "});",
+          "",
+          "pm.test('Content-Type is correct', function () {",
+          "    if (pm.response.code === 200) {",
+          "        pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+          "    }",
+          "});",
+          "",
+          "// Store document_id from upload responses",
+          "if (pm.response.json() && pm.response.json().id) {",
+          "    pm.globals.set('document_id', pm.response.json().id);",
+          "}",
+          "",
+          "// Store session_id from paraphrasing responses",
+          "if (pm.response.json() && pm.response.json().session_id) {",
+          "    pm.globals.set('session_id', pm.response.json().session_id);",
+          "}"
+        ]
+      }
+    }
+  ]
+}

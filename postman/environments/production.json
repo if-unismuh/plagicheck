@@ -1,0 +1,56 @@
+{
+  "id": "prod-environment-uuid",
+  "name": "Production Environment",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "https://your-production-domain.com",
+      "description": "Base URL for production server",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "api_version",
+      "value": "v2",
+      "description": "API version",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "timeout",
+      "value": "60000",
+      "description": "Request timeout in milliseconds (longer for production)",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "max_file_size",
+      "value": "50",
+      "description": "Maximum file size in MB",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "api_key",
+      "value": "",
+      "description": "API key for production (if required)",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "sample_document_id",
+      "value": "",
+      "description": "Sample document ID for testing (will be set dynamically)",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "sample_session_id",
+      "value": "",
+      "description": "Sample session ID for testing (will be set dynamically)",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}
