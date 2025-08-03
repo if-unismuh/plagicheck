@@ -16,7 +16,7 @@ from app.core.database import get_db
 from app.models.document import ParaphraseMethod, DocumentStatus
 from app.services.enhanced_document_processor import enhanced_document_processor
 from app.services.indonesian_nlp_pipeline import indonesian_nlp_pipeline
-from app.services.enhanced_indot5_paraphraser import enhanced_indot5_paraphraser
+from app.services.enhanced_indot5_paraphraser import get_enhanced_indot5_paraphraser
 from app.services.rule_based_paraphraser import rule_based_paraphraser
 from app.services.paraphraser import enhanced_paraphrasing_service
 
@@ -306,6 +306,7 @@ async def paraphrase_text_direct(request: DirectParaphraseRequest):
         metadata = {}
         
         if request.method == "indot5":
+            enhanced_indot5_paraphraser = get_enhanced_indot5_paraphraser()
             result = await enhanced_indot5_paraphraser.paraphrase_single(
                 request.text, request.num_variants
             )
@@ -342,6 +343,7 @@ async def paraphrase_text_direct(request: DirectParaphraseRequest):
             
         elif request.method == "hybrid":
             # Use both methods and compare
+            enhanced_indot5_paraphraser = get_enhanced_indot5_paraphraser()
             indot5_result = await enhanced_indot5_paraphraser.paraphrase_single(
                 request.text, request.num_variants
             )
@@ -402,6 +404,7 @@ async def paraphrase_text_direct(request: DirectParaphraseRequest):
 async def get_performance_stats():
     """Get performance statistics for all enhanced services."""
     try:
+        enhanced_indot5_paraphraser = get_enhanced_indot5_paraphraser()
         stats = {
             "enhanced_indot5": enhanced_indot5_paraphraser.get_performance_stats(),
             "rule_based": rule_based_paraphraser.get_transformation_stats(),
@@ -427,6 +430,7 @@ async def get_performance_stats():
 async def clear_performance_cache():
     """Clear all performance caches to free memory."""
     try:
+        enhanced_indot5_paraphraser = get_enhanced_indot5_paraphraser()
         enhanced_indot5_paraphraser.clear_cache()
         
         return {

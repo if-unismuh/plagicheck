@@ -380,7 +380,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"document_id\": \"{{document_id}}\",\n  \"method\": \"HYBRID\",\n  \"use_nlp_analysis\": true,\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"num_variants\": 3,\n  \"quality_threshold\": 0.7\n}"
+              "raw": "{\n  \"method\": \"HYBRID\",\n  \"use_nlp_analysis\": true,\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"num_variants\": 3,\n  \"quality_threshold\": 0.7\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v2/documents/{{document_id}}/paraphrase-enhanced",
