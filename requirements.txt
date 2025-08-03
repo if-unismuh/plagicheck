@@ -38,7 +38,7 @@ python-Levenshtein==0.23.0
 language-tool-python==2.7.1
 
 # Utilities
-tqdm==4.66.1
+tqdm==4.66.3
 
 # Testing (Development)
 pytest>=7.0.0
