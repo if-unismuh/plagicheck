@@ -17,6 +17,7 @@ from app.core.database import get_db, create_tables
 from app.models.document import Document, ParaphraseSession, DocumentStatus, ParaphraseMethod
 from app.services.document_processor import document_processor
 from app.services.paraphraser import paraphrasing_service
+from app.api.enhanced_routes import router as enhanced_router
 
 # Pydantic models for API
 class DocumentResponse(BaseModel):
@@ -81,6 +82,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include enhanced routes
+app.include_router(enhanced_router)
 
 # Create database tables on startup
 @app.on_event("startup")

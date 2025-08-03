@@ -26,11 +26,12 @@ from app.services.indonesian_nlp_pipeline import indonesian_nlp_pipeline, Docume
 logger = logging.getLogger(__name__)
 
 try:
-    from app.services.enhanced_indot5_paraphraser import enhanced_indot5_paraphraser, ParaphraseResult
-except Exception as e:
+    from app.services.enhanced_indot5_paraphraser import get_enhanced_indot5_paraphraser, ParaphraseResult
+    enhanced_indot5_paraphraser = None  # Will be loaded lazily
+except ImportError as e:
     logger.warning(f"Failed to import enhanced_indot5_paraphraser: {e}")
+    get_enhanced_indot5_paraphraser = None
     enhanced_indot5_paraphraser = None
-    ParaphraseResult = None
 from app.services.rule_based_paraphraser import rule_based_paraphraser, ParaphraseQuality
 
 
@@ -55,10 +56,13 @@ class IndoT5Paraphraser(BaseParaphraser):
         self.model_name = "Wikidepia/IndoT5-base-paraphrase"
         self.model = None
         self.tokenizer = None
-        self._load_model()
+        self._model_loaded = False
     
     def _load_model(self):
-        """Load the IndoT5 model and tokenizer."""
+        """Load the IndoT5 model and tokenizer only when needed."""
+        if self._model_loaded:
+            return
+            
         try:
             logger.info("Loading IndoT5 model...")
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
@@ -71,6 +75,14 @@ class IndoT5Paraphraser(BaseParaphraser):
             else:
                 logger.info("IndoT5 model loaded on CPU")
                 
+            self._model_loaded = True
+                
+        except OSError as e:
+            if "No space left on device" in str(e):
+                logger.error("Insufficient disk space to load IndoT5 model. Please free up space or use a different paraphrasing method.")
+                raise RuntimeError("Insufficient disk space to load IndoT5 model. Please free up space or use a different paraphrasing method.")
+            logger.error(f"Failed to load IndoT5 model: {str(e)}")
+            raise
         except Exception as e:
             logger.error(f"Failed to load IndoT5 model: {str(e)}")
             raise
@@ -86,6 +98,9 @@ class IndoT5Paraphraser(BaseParaphraser):
             str: Paraphrased text
         """
         try:
+            # Load model if not already loaded
+            self._load_model()
+            
             # Prepare input
             input_text = f"paraphrase: {text}"
             inputs = self.tokenizer.encode(
@@ -242,10 +257,20 @@ class EnhancedParaphrasingService:
             ParaphraseMethod.HYBRID: HybridParaphraser(),
         }
         
-        # Enhanced paraphrasers
-        self.enhanced_indot5 = enhanced_indot5_paraphraser if enhanced_indot5_paraphraser else None
+        # Enhanced paraphrasers - use lazy loading
+        self.enhanced_indot5 = None  # Will be loaded when needed
         self.rule_based = rule_based_paraphraser
         self.nlp_pipeline = indonesian_nlp_pipeline
+    
+    def _get_enhanced_indot5(self):
+        """Get enhanced IndoT5 paraphraser with lazy loading."""
+        if self.enhanced_indot5 is None and get_enhanced_indot5_paraphraser:
+            try:
+                self.enhanced_indot5 = get_enhanced_indot5_paraphraser()
+            except Exception as e:
+                logger.error(f"Failed to load enhanced IndoT5 paraphraser: {e}")
+                return None
+        return self.enhanced_indot5
     
     async def paraphrase_document_enhanced(
         self,
@@ -396,8 +421,9 @@ class EnhancedParaphrasingService:
                 results = []
                 for idx, sentence in high_priority_sentences:
                     try:
-                        if self.enhanced_indot5:
-                            result = await self.enhanced_indot5.paraphrase_single(
+                        enhanced_indot5 = self._get_enhanced_indot5()
+                        if enhanced_indot5:
+                            result = await enhanced_indot5.paraphrase_single(
                                 sentence, num_variants
                             )
                             results.append((idx, result))
@@ -419,8 +445,9 @@ class EnhancedParaphrasingService:
                 }
             else:
                 # Paraphrase entire document
-                if self.enhanced_indot5:
-                    result = await self.enhanced_indot5.paraphrase_single(text, num_variants)
+                enhanced_indot5 = self._get_enhanced_indot5()
+                if enhanced_indot5:
+                    result = await enhanced_indot5.paraphrase_single(text, num_variants)
                     paraphrased_text = result.best_variant
                 else:
                     logger.warning("Enhanced IndoT5 paraphraser not available, returning original text")
@@ -439,8 +466,9 @@ class EnhancedParaphrasingService:
                 }
         else:
             # Simple enhanced paraphrasing without analysis
-            if self.enhanced_indot5:
-                result = await self.enhanced_indot5.paraphrase_single(text, num_variants)
+            enhanced_indot5 = self._get_enhanced_indot5()
+            if enhanced_indot5:
+                result = await enhanced_indot5.paraphrase_single(text, num_variants)
                 paraphrased_text = result.best_variant
             else:
                 logger.warning("Enhanced IndoT5 paraphraser not available, returning original text")
@@ -481,8 +509,9 @@ class EnhancedParaphrasingService:
         
         # Step 2: Enhanced IndoT5 paraphrasing
         indot5_result = None
-        if self.enhanced_indot5:
-            indot5_result = await self.enhanced_indot5.paraphrase_single(text, num_variants)
+        enhanced_indot5 = self._get_enhanced_indot5()
+        if enhanced_indot5:
+            indot5_result = await enhanced_indot5.paraphrase_single(text, num_variants)
         else:
             logger.warning("Enhanced IndoT5 paraphraser not available for hybrid approach")
         

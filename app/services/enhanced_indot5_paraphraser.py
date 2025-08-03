@@ -75,8 +75,7 @@ class EnhancedIndoT5Paraphraser:
         self.max_similarity = 0.9  # Maximum similarity (avoid too similar)
         self.min_quality_score = 0.5
         
-        # Initialize models
-        asyncio.create_task(self._initialize_models())
+        # Don't initialize models immediately - use lazy loading
     
     async def _initialize_models(self):
         """Initialize all models with optimizations."""
@@ -158,6 +157,12 @@ class EnhancedIndoT5Paraphraser:
             logger.info(f"Model loaded successfully on {self.device}")
             logger.info(f"Model parameters: {sum(p.numel() for p in self.model.parameters()):,}")
             
+        except OSError as e:
+            if "No space left on device" in str(e):
+                logger.error("Insufficient disk space to load IndoT5 model. Please free up space or use a different paraphrasing method.")
+                raise RuntimeError("Insufficient disk space to load IndoT5 model. Please free up space or use a different paraphrasing method.")
+            logger.error(f"Failed to load IndoT5 model: {e}")
+            raise
         except Exception as e:
             logger.error(f"Failed to load IndoT5 model: {e}")
             raise
@@ -600,5 +605,12 @@ class EnhancedIndoT5Paraphraser:
         logger.info("Enhanced IndoT5 Paraphraser cleaned up")
 
 
-# Global instance
-enhanced_indot5_paraphraser = EnhancedIndoT5Paraphraser()
+# Global instance with lazy initialization
+enhanced_indot5_paraphraser = None
+
+def get_enhanced_indot5_paraphraser():
+    """Get or create the enhanced IndoT5 paraphraser instance."""
+    global enhanced_indot5_paraphraser
+    if enhanced_indot5_paraphraser is None:
+        enhanced_indot5_paraphraser = EnhancedIndoT5Paraphraser()
+    return enhanced_indot5_paraphraser
