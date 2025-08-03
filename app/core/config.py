@@ -41,6 +41,20 @@ class Settings(BaseSettings):
     max_concurrent_jobs: int = Field(default=5, env="MAX_CONCURRENT_JOBS")
     similarity_threshold: float = Field(default=0.7, env="SIMILARITY_THRESHOLD")
     
+    # Unified Paraphrase Configuration
+    unified_paraphrase_config: dict = Field(
+        default={
+            'custom_synonyms_path': 'synonyms.json',
+            'quality_threshold_default': 0.7,
+            'max_variants_per_request': 5,
+            'enable_gpu_acceleration': True,
+            'enable_performance_caching': True,
+            'academic_focus_mode': True,
+            'preserve_formatting': True
+        },
+        env="UNIFIED_PARAPHRASE_CONFIG"
+    )
+    
     @field_validator('allowed_extensions', mode='before')
     @classmethod
     def validate_allowed_extensions(cls, v):
