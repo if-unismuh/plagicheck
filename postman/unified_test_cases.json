@@ -1,0 +1,115 @@
+{
+  "name": "Unified System Test Cases",
+  "item": [
+    {
+      "name": "Test 4 - High Quality Threshold",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Metodologi penelitian yang diterapkan dalam studi ini meliputi pendekatan kuantitatif dengan analisis statistik deskriptif dan inferensial.\",\n  \"quality_threshold\": 0.8,\n  \"num_variants\": 5,\n  \"formality_level\": \"academic\",\n  \"target_complexity\": \"maintain\",\n  \"include_quality_breakdown\": true,\n  \"include_method_insights\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/paraphrase",
+          "host": ["{{base_url}}"],
+          "path": ["api", "paraphrase"]
+        },
+        "description": "Test high quality threshold with complex academic text"
+      }
+    },
+    {
+      "name": "Test 5 - Method Selection Control",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Hasil analisis data menunjukkan adanya korelasi positif antara penggunaan teknologi dan peningkatan hasil belajar.\",\n  \"use_indot5\": true,\n  \"use_rule_based\": false,\n  \"use_custom_synonyms\": true,\n  \"num_variants\": 3,\n  \"include_method_insights\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/paraphrase",
+          "host": ["{{base_url}}"],
+          "path": ["api", "paraphrase"]
+        },
+        "description": "Test selective method usage (IndoT5 + Custom Synonyms only)"
+      }
+    },
+    {
+      "name": "Test 6 - Formality Level Control",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"Penelitian ini bertujuan untuk mengidentifikasi strategi pembelajaran yang efektif di era digital.\",\n  \"formality_level\": \"formal\",\n  \"target_complexity\": \"simplify\",\n  \"num_variants\": 3,\n  \"include_quality_breakdown\": true\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/paraphrase",
+          "host": ["{{base_url}}"],
+          "path": ["api", "paraphrase"]
+        },
+        "description": "Test formal tone with simplified complexity"
+      }
+    },
+    {
+      "name": "Test 7 - Error Handling (Empty Text)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"\",\n  \"num_variants\": 3\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/paraphrase",
+          "host": ["{{base_url}}"],
+          "path": ["api", "paraphrase"]
+        },
+        "description": "Test error handling with empty text input"
+      }
+    },
+    {
+      "name": "Test 8 - Error Handling (No Input)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"num_variants\": 3\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/paraphrase",
+          "host": ["{{base_url}}"],
+          "path": ["api", "paraphrase"]
+        },
+        "description": "Test error handling with no text or document_id provided"
+      }
+    }
+  ]
+}

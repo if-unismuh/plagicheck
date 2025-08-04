@@ -433,11 +433,15 @@ class UnifiedParaphraser:
             )
             
             # PHASE 5: Content Restoration & Formatting
-            final_output = await self._restore_and_format(
-                optimized_result, protected_content.protection_map
-            )
-            
             processing_time = time.time() - start_time
+            final_output = await self._restore_and_format(
+                optimized_result, 
+                protected_content.protection_map,
+                input_data.text,
+                variant_candidates,
+                analysis_result,
+                processing_time
+            )
             
             # Update statistics
             self.stats['average_processing_time'] = (
@@ -819,12 +823,31 @@ class UnifiedParaphraser:
     async def _restore_and_format(
         self, 
         selected_variant: VariantCandidate,
-        protection_map: Dict[str, str]
+        protection_map: Dict[str, str],
+        original_text: str,
+        all_variants: List[VariantCandidate],
+        analysis: DocumentAnalysis,
+        processing_time: float
     ) -> UnifiedResult:
         """Restore protected content and format final output."""
         if not selected_variant:
             logger.error("No variant selected for restoration")
-            return None
+            # Return fallback result
+            return UnifiedResult(
+                original_text=original_text,
+                best_variant=original_text,
+                all_variants=[],
+                quality_assessment=QualityAssessmentResult(
+                    overall_score=0.0,
+                    dimension_scores={},
+                    confidence_level=0.0,
+                    recommendations=["No variant could be generated"],
+                    meets_threshold=False
+                ),
+                processing_time=processing_time,
+                method_contributions={},
+                metadata={"error": "No variant selected"}
+            )
         
         try:
             # Restore protected content
@@ -835,29 +858,45 @@ class UnifiedParaphraser:
             
             # Create comprehensive result
             method_contributions = {}
-            for candidate in [selected_variant]:  # In full implementation, would include all candidates
+            for candidate in all_variants:
                 method = candidate.source_method
                 method_contributions[method] = method_contributions.get(method, 0) + 1
             
+            # Get quality assessment for best variant
+            quality_assessment = self.quality_assessor.assess_comprehensive_quality(
+                original_text,
+                final_text,
+                analysis
+            )
+            
             return UnifiedResult(
-                original_text="",  # Would be set from original input
+                original_text=original_text,
                 best_variant=final_text,
-                all_variants=[selected_variant],
-                quality_assessment=QualityAssessmentResult(
-                    overall_score=selected_variant.confidence,
-                    dimension_scores=selected_variant.quality_scores,
-                    confidence_level=selected_variant.confidence,
-                    recommendations=[],
-                    meets_threshold=True
-                ),
-                processing_time=0.0,  # Would be calculated from actual timing
+                all_variants=all_variants,
+                quality_assessment=quality_assessment,
+                processing_time=processing_time,
                 method_contributions=method_contributions,
                 metadata=selected_variant.metadata
             )
             
         except Exception as e:
             logger.error(f"Content restoration failed: {e}")
-            return None
+            # Return fallback result
+            return UnifiedResult(
+                original_text=original_text,
+                best_variant=original_text,
+                all_variants=all_variants,
+                quality_assessment=QualityAssessmentResult(
+                    overall_score=0.0,
+                    dimension_scores={},
+                    confidence_level=0.0,
+                    recommendations=[f"Restoration failed: {str(e)}"],
+                    meets_threshold=False
+                ),
+                processing_time=processing_time,
+                method_contributions={},
+                metadata={"error": str(e)}
+            )
     
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get performance statistics."""

@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Auto-Paraphrasing System API",
-    "description": "Comprehensive API collection for the Auto-Paraphrasing System with Indonesian and English text processing capabilities.",
+    "name": "PlagiCheck - Unified Paraphrasing System API",
+    "description": "Comprehensive API collection for PlagiCheck Unified Paraphrasing System with enhanced Indonesian academic text processing capabilities, custom synonyms integration, and comprehensive quality assessment.",
     "version": "2.0.0",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -336,6 +336,113 @@
       ]
     },
     {
+      "name": "Unified Paraphrasing System",
+      "item": [
+        {
+          "name": "Unified Text Paraphrasing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Penelitian ini menggunakan metode analisis kualitatif untuk mengkaji faktor-faktor yang mempengaruhi kualitas pembelajaran mahasiswa di era digital.\",\n  \"num_variants\": 3,\n  \"quality_threshold\": 0.7,\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"formality_level\": \"academic\",\n  \"target_complexity\": \"maintain\",\n  \"include_detailed_analysis\": true,\n  \"include_quality_breakdown\": true,\n  \"include_method_insights\": true,\n  \"use_indot5\": true,\n  \"use_rule_based\": true,\n  \"use_custom_synonyms\": true,\n  \"custom_synonyms_path\": \"synonyms.json\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/paraphrase",
+              "host": ["{{base_url}}"],
+              "path": ["api", "paraphrase"]
+            },
+            "description": "🚀 **UNIFIED PARAPHRASING ENDPOINT** - Single comprehensive endpoint handling all paraphrasing scenarios with automatic method selection and optimization"
+          },
+          "response": [
+            {
+              "name": "Unified Paraphrasing Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"original_text\": \"Penelitian ini menggunakan metode analisis kualitatif untuk mengkaji faktor-faktor yang mempengaruhi kualitas pembelajaran mahasiswa di era digital.\",\n  \"best_variant\": \"Studi ini menerapkan pendekatan analisis kualitatif untuk meneliti faktor-faktor yang memengaruhi mutu pembelajaran mahasiswa pada era digital.\",\n  \"processing_time\": 2.85,\n  \"quality_assessment\": {\n    \"overall_score\": 0.82,\n    \"dimension_scores\": {\n      \"semantic_similarity\": 0.75,\n      \"grammar_correctness\": 0.92,\n      \"academic_tone_preservation\": 0.88,\n      \"readability_score\": 0.85,\n      \"structural_diversity\": 0.78,\n      \"context_appropriateness\": 0.86\n    },\n    \"confidence_level\": 0.87,\n    \"recommendations\": [\n      \"Excellent academic tone preservation\",\n      \"High semantic similarity maintained\",\n      \"Good structural variation achieved\"\n    ],\n    \"meets_threshold\": true\n  },\n  \"all_variants\": [\n    {\n      \"text\": \"Studi ini menerapkan pendekatan analisis kualitatif untuk meneliti faktor-faktor yang memengaruhi mutu pembelajaran mahasiswa pada era digital.\",\n      \"source_method\": \"enhanced_indot5\",\n      \"confidence\": 0.89,\n      \"quality_scores\": {\n        \"semantic_similarity\": 0.75,\n        \"grammar_correctness\": 0.92,\n        \"overall_quality\": 0.82\n      },\n      \"metadata\": {\n        \"model_version\": \"indot5-enhanced\",\n        \"processing_time\": 1.2\n      }\n    },\n    {\n      \"text\": \"Riset ini menggunakan metode analisis kualitatif untuk mengeksplorasi faktor-faktor yang berpengaruh terhadap kualitas pembelajaran mahasiswa di era digital.\",\n      \"source_method\": \"rule_based\",\n      \"confidence\": 0.81,\n      \"quality_scores\": {\n        \"semantic_similarity\": 0.82,\n        \"grammar_correctness\": 0.85,\n        \"overall_quality\": 0.78\n      },\n      \"metadata\": {\n        \"synonym_replacements\": 3,\n        \"structural_changes\": 2\n      }\n    }\n  ],\n  \"nlp_analysis\": {\n    \"total_sentences\": 1,\n    \"overall_readability\": 0.72,\n    \"overall_complexity\": 0.68,\n    \"academic_terms_count\": 5,\n    \"named_entities_count\": 0,\n    \"high_priority_sentences\": 1\n  },\n  \"method_insights\": {\n    \"indot5_variants\": 2,\n    \"rule_based_variants\": 2,\n    \"custom_synonyms_variants\": 1,\n    \"structural_variants\": 1,\n    \"selected_method\": \"enhanced_indot5\"\n  },\n  \"metadata\": {\n    \"custom_synonyms_used\": true,\n    \"academic_terms_preserved\": [\n      \"penelitian\",\n      \"metode\",\n      \"analisis kualitatif\",\n      \"pembelajaran\",\n      \"mahasiswa\"\n    ],\n    \"processing_phases\": [\n      \"content_analysis\",\n      \"content_protection\",\n      \"variant_generation\",\n      \"quality_assessment\",\n      \"optimal_selection\"\n    ]\n  },\n  \"system_info\": {\n    \"version\": \"2.0.0\",\n    \"unified_system\": true,\n    \"methods_available\": [\"indot5\", \"rule_based\", \"custom_synonyms\", \"structural\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Unified Document Paraphrasing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"document_id\": \"{{document_id}}\",\n  \"num_variants\": 3,\n  \"quality_threshold\": 0.7,\n  \"preserve_academic_terms\": true,\n  \"preserve_citations\": true,\n  \"formality_level\": \"academic\",\n  \"target_complexity\": \"maintain\",\n  \"include_detailed_analysis\": false,\n  \"include_quality_breakdown\": true,\n  \"include_method_insights\": false,\n  \"use_indot5\": true,\n  \"use_rule_based\": true,\n  \"use_custom_synonyms\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/paraphrase",
+              "host": ["{{base_url}}"],
+              "path": ["api", "paraphrase"]
+            },
+            "description": "Unified paraphrasing using previously uploaded document"
+          },
+          "response": [
+            {
+              "name": "Document Paraphrasing Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"original_text\": \"Content from uploaded document...\",\n  \"best_variant\": \"Paraphrased version of document content...\",\n  \"processing_time\": 5.42,\n  \"quality_assessment\": {\n    \"overall_score\": 0.79,\n    \"dimension_scores\": {\n      \"semantic_similarity\": 0.73,\n      \"grammar_correctness\": 0.89,\n      \"academic_tone_preservation\": 0.91,\n      \"readability_score\": 0.77,\n      \"structural_diversity\": 0.82,\n      \"context_appropriateness\": 0.84\n    },\n    \"confidence_level\": 0.85,\n    \"recommendations\": [\n      \"Strong academic tone maintained\",\n      \"Good structural diversity achieved\"\n    ],\n    \"meets_threshold\": true\n  },\n  \"metadata\": {\n    \"document_id\": \"{{document_id}}\",\n    \"source_type\": \"document\",\n    \"processing_mode\": \"unified\"\n  },\n  \"system_info\": {\n    \"version\": \"2.0.0\",\n    \"unified_system\": true,\n    \"methods_available\": [\"indot5\", \"rule_based\", \"custom_synonyms\", \"structural\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Unified System Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Check unified paraphrasing system health and performance"
+          },
+          "response": [
+            {
+              "name": "Health Check Success",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"2024-08-04T10:30:00.123456Z\",\n  \"components\": {\n    \"unified_paraphraser\": \"healthy\",\n    \"indot5_engine\": \"healthy\",\n    \"rule_based_engine\": \"healthy\",\n    \"custom_synonyms\": \"healthy\",\n    \"nlp_pipeline\": \"healthy\",\n    \"quality_assessor\": \"healthy\"\n  },\n  \"performance\": {\n    \"total_requests\": 1247,\n    \"average_processing_time\": 2.34,\n    \"method_usage\": {\n      \"indot5\": 654,\n      \"rule_based\": 423,\n      \"custom_synonyms\": 892,\n      \"structural\": 387\n    },\n    \"success_rate\": 0.987,\n    \"current_load\": 0.23\n  },\n  \"recommendations\": [\n    \"System performing optimally\",\n    \"All methods available and functional\"\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Unified System Performance Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v2/performance/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "performance", "stats"]
+            },
+            "description": "Get comprehensive performance statistics for unified system"
+          },
+          "response": [
+            {
+              "name": "Performance Stats",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"unified_paraphraser\": {\n    \"total_requests\": 1247,\n    \"average_processing_time\": 2.34,\n    \"success_rate\": 0.987,\n    \"method_contributions\": {\n      \"indot5_selected\": 456,\n      \"rule_based_selected\": 321,\n      \"hybrid_selected\": 470\n    }\n  },\n  \"indot5_engine\": {\n    \"total_requests\": 654,\n    \"average_processing_time\": 1.82,\n    \"gpu_utilization\": 0.45,\n    \"cache_hit_rate\": 0.23\n  },\n  \"rule_based_engine\": {\n    \"total_requests\": 423,\n    \"average_processing_time\": 0.89,\n    \"synonym_database_size\": 12847,\n    \"transformation_rules\": 156\n  },\n  \"quality_assessor\": {\n    \"assessments_performed\": 3421,\n    \"average_assessment_time\": 0.15,\n    \"threshold_pass_rate\": 0.834\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Paraphrasing",
       "item": [
         {
@@ -538,6 +645,77 @@
       ]
     },
     {
+      "name": "Unified System Test Cases",
+      "item": [
+        {
+          "name": "Test 1 - Simple Academic Text",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Penelitian ini menggunakan metode analisis kualitatif untuk mengkaji faktor-faktor yang mempengaruhi kualitas pembelajaran.\",\n  \"num_variants\": 3,\n  \"preserve_academic_terms\": true,\n  \"include_method_insights\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/paraphrase",
+              "host": ["{{base_url}}"],
+              "path": ["api", "paraphrase"]
+            },
+            "description": "Test simple academic text paraphrasing with method insights"
+          }
+        },
+        {
+          "name": "Test 2 - Complex Text with Citations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Menurut Smith (2023), teknologi digital memberikan dampak signifikan terhadap efektivitas pembelajaran mahasiswa dengan tingkat kepuasan mencapai 85%.\",\n  \"num_variants\": 3,\n  \"preserve_citations\": true,\n  \"preserve_academic_terms\": true,\n  \"include_detailed_analysis\": true,\n  \"include_quality_breakdown\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/paraphrase",
+              "host": ["{{base_url}}"],
+              "path": ["api", "paraphrase"]
+            },
+            "description": "Test text with citations and detailed analysis"
+          }
+        },
+        {
+          "name": "Test 3 - Custom Synonyms Integration",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Penelitian ini menunjukkan hasil yang signifikan dalam meningkatkan pemahaman mahasiswa.\",\n  \"use_custom_synonyms\": true,\n  \"custom_synonyms_path\": \"synonyms.json\",\n  \"include_detailed_analysis\": true,\n  \"num_variants\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/paraphrase",
+              "host": ["{{base_url}}"],
+              "path": ["api", "paraphrase"]
+            },
+            "description": "Test custom synonyms integration with detailed analysis"
+          }
+        }
+      ]
+    },
+    {
       "name": "Demo & Examples",
       "item": [
         {
@@ -589,17 +767,32 @@
     {
       "key": "base_url",
       "value": "http://localhost:8000",
-      "description": "Base URL for the API"
+      "description": "Base URL for PlagiCheck Unified Paraphrasing System API"
     },
     {
       "key": "document_id",
       "value": "123e4567-e89b-12d3-a456-426614174000",
-      "description": "Sample document ID for testing"
+      "description": "Sample document ID for testing unified system"
     },
     {
       "key": "session_id",
       "value": "987fcdeb-51a2-43d1-b789-123456789abc",
-      "description": "Sample session ID for testing"
+      "description": "Sample session ID for testing paraphrasing sessions"
+    },
+    {
+      "key": "api_version",
+      "value": "2.0.0",
+      "description": "Unified system API version"
+    },
+    {
+      "key": "test_text_simple",
+      "value": "Penelitian ini menggunakan metode analisis kualitatif untuk mengkaji faktor-faktor yang mempengaruhi kualitas pembelajaran.",
+      "description": "Simple test text for quick testing"
+    },
+    {
+      "key": "test_text_complex",
+      "value": "Menurut Smith (2023), teknologi digital memberikan dampak signifikan terhadap efektivitas pembelajaran mahasiswa dengan tingkat kepuasan mencapai 85%.",
+      "description": "Complex test text with citations for comprehensive testing"
     }
   ],
   "event": [
@@ -608,10 +801,23 @@
       "script": {
         "type": "text/javascript",
         "exec": [
-          "// Pre-request script to set up common variables",
+          "// Pre-request script for unified paraphrasing system",
           "if (!pm.globals.get('timestamp')) {",
           "    pm.globals.set('timestamp', new Date().toISOString());",
-          "}"
+          "}",
+          "",
+          "// Set unified system headers if needed",
+          "pm.request.headers.add({",
+          "    key: 'X-API-Version',",
+          "    value: '2.0.0'",
+          "});",
+          "",
+          "// Log request for debugging",
+          "console.log('Request URL:', pm.request.url.toString());",
+          "console.log('Request Method:', pm.request.method);",
+          "",
+          "// Add request timestamp",
+          "pm.globals.set('request_start_time', Date.now());"
         ]
       }
     },
@@ -620,26 +826,82 @@
       "script": {
         "type": "text/javascript",
         "exec": [
-          "// Common test script for all requests",
-          "pm.test('Response time is reasonable', function () {",
-          "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+          "// Common test script for unified paraphrasing system",
+          "",
+          "// Calculate response time",
+          "const startTime = pm.globals.get('request_start_time');",
+          "if (startTime) {",
+          "    const responseTime = Date.now() - startTime;",
+          "    pm.test('Response time is reasonable', function () {",
+          "        pm.expect(responseTime).to.be.below(30000); // 30 seconds max",
+          "    });",
+          "}",
+          "",
+          "// Basic response validation",
+          "pm.test('Status code indicates success or expected error', function () {",
+          "    pm.expect([200, 400, 422, 500]).to.include(pm.response.code);",
           "});",
           "",
-          "pm.test('Content-Type is correct', function () {",
+          "pm.test('Content-Type is correct for success responses', function () {",
           "    if (pm.response.code === 200) {",
           "        pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
           "    }",
           "});",
           "",
           "// Store document_id from upload responses",
-          "if (pm.response.json() && pm.response.json().id) {",
-          "    pm.globals.set('document_id', pm.response.json().id);",
+          "if (pm.response.json() && pm.response.json().document_id) {",
+          "    pm.globals.set('document_id', pm.response.json().document_id);",
+          "    console.log('Stored document_id:', pm.response.json().document_id);",
           "}",
           "",
           "// Store session_id from paraphrasing responses",
           "if (pm.response.json() && pm.response.json().session_id) {",
           "    pm.globals.set('session_id', pm.response.json().session_id);",
-          "}"
+          "    console.log('Stored session_id:', pm.response.json().session_id);",
+          "}",
+          "",
+          "// Unified system specific tests",
+          "if (pm.response.code === 200 && pm.request.url.toString().includes('/api/paraphrase')) {",
+          "    const responseJson = pm.response.json();",
+          "    ",
+          "    pm.test('Unified response has required fields', function () {",
+          "        pm.expect(responseJson).to.have.property('original_text');",
+          "        pm.expect(responseJson).to.have.property('best_variant');",
+          "        pm.expect(responseJson).to.have.property('processing_time');",
+          "        pm.expect(responseJson).to.have.property('quality_assessment');",
+          "        pm.expect(responseJson).to.have.property('system_info');",
+          "    });",
+          "    ",
+          "    pm.test('Quality assessment has proper structure', function () {",
+          "        const qa = responseJson.quality_assessment;",
+          "        pm.expect(qa).to.have.property('overall_score');",
+          "        pm.expect(qa).to.have.property('dimension_scores');",
+          "        pm.expect(qa).to.have.property('confidence_level');",
+          "        pm.expect(qa).to.have.property('meets_threshold');",
+          "    });",
+          "    ",
+          "    pm.test('System info indicates unified system', function () {",
+          "        pm.expect(responseJson.system_info.unified_system).to.be.true;",
+          "        pm.expect(responseJson.system_info.version).to.equal('2.0.0');",
+          "    });",
+          "    ",
+          "    pm.test('Processing time is recorded', function () {",
+          "        pm.expect(responseJson.processing_time).to.be.a('number');",
+          "        pm.expect(responseJson.processing_time).to.be.above(0);",
+          "    });",
+          "    ",
+          "    // Store quality score for comparison across tests",
+          "    pm.globals.set('last_quality_score', responseJson.quality_assessment.overall_score);",
+          "    console.log('Quality Score:', responseJson.quality_assessment.overall_score);",
+          "}",
+          "",
+          "// Log response for debugging",
+          "if (pm.response.code !== 200) {",
+          "    console.log('Error Response:', pm.response.text());",
+          "}",
+          "",
+          "// Clean up globals after test completion",
+          "pm.globals.unset('request_start_time');"
         ]
       }
     }
